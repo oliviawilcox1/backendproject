@@ -1,0 +1,63 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+<div class="container-sm text-center">
+    <form action="/jobs/new" method="POST">
+        <fieldset>
+            <h1 class="text-center">Job Form </h1>
+                <div class="text-center">
+                    <legend class="text-center"> </legend>
+                    <label class="form-label text-center"> 
+                       Create Job </label>
+                        <input 
+                        type="text"
+                        name="order_number"
+                        placeholder="Order Number"
+                        class="form-control text-center"
+                        required
+                        >
+                        <input 
+                        type="text"
+                        name="sku"
+                        placeholder="SKU"
+                        class="form-control text-center"
+                        required
+                        >
+                        <input 
+                        type="number"
+                        name="quantity"
+                        placeholder="Quantity"
+                        class="form-control text-center"
+                        required
+                        >
+                        <input 
+                        type="number"
+                        name="stones"
+                        placeholder="Number of Stones"
+                        class="form-control text-center"
+                        required
+                        >
+                        <input 
+                        type="text"
+                        name="description"
+                        placeholder="Description"
+                        class="form-control text-center"
+                        required
+                        >
+                        <input 
+                        type="text"
+                        name="setter"
+                        placeholder="Setter"
+                        class="form-control text-center"
+                        required
+                        >
+                    </fieldset>
+                <input type="submit" value="Submit Job Form" class="btn btn-dark">
+            </form>
+            <div class="text-center">
+                <a href="/jobs" class="btn btn-dark text-center">All Jobs</a>
+            </div>
+        </div>
+    </br>
+    </div>
+    {% endblock %}
+    

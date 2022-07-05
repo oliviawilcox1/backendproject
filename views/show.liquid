@@ -1,0 +1,29 @@
+{% layout "layout.liquid" %}
+{% block content %}
+
+    <div class="bg">
+{% for job in jobs %} 
+    <h5 class="card-header">  </h5>
+            <div class="card-body">
+                <input 
+                type="checkbox" 
+                name="checked"
+                class="form-check-input"
+                {% if job.checked %}
+                checked
+                {% endif %}
+                > </br>
+                    Order Number: {{ job.order_number }} </br>
+                    Job SKU: {{ job.sku }} </br>
+                    Quantity:{{ job.quantity }} </br>
+                    Stones: {{ job.stones }} </br>
+                    Drescription of Job: {{ job.description }} </br>
+                    Setter: {{ job.setter }} </br>
+                    Date created: {{ job.createdAt.| slice: 0, 16}} </br>
+                    Memo Number: </br>
+                    Created By: {{ username | capitalize }} </br>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
