@@ -37,19 +37,29 @@
                         required
                         >
                         <input 
+                        id="date"
+                        type="text"
+                        name="date"
+                        placeholder="Date (DD/MM/YY)"
+                        class="form-control text-center"
+                        required
+                        >
+                        <script>
+                            document.getElementById('date').value = (new Date()).format("m/dd/yy");
+                         </script>
+                         
+                        <input 
                         type="text"
                         name="description"
                         placeholder="Description"
                         class="form-control text-center"
                         required
                         >
-                        <input 
-                        type="text"
-                        name="setter"
-                        placeholder="Setter - A, B or C"
-                        class="form-control text-center"
-                        required
-                        >
+                        <select name="setter">
+                            <option value="A">Setter A</option>
+                            <option value="B">Setter B</option>
+                            <option value="C">Setter C</option>
+                          </select>
                     </fieldset>
                 <input type="submit" value="Submit Job Form" class="btn btn-dark">
             </form>

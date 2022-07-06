@@ -1,34 +1,72 @@
+{% layout "layout.liquid" %}
+{% block content %}
 
-        <span>
-            <h3>Filter </h3>
-            <form action="/jobs/show"> 
-                <input 
-                type="text"
-                name="order_number"
-                placeholder="Order Number"
-                class="form-control text-center"
-                type="submit"
-                >
-            <input 
-            type="text"
-            name="sku"
-            placeholder="Sku"
-            class="form-control text-center"
-            >
-            <input 
-            type="text"
-            name="setter"
-            placeholder="Setter"
-            class="form-control text-center"
-            >
-            <!-- <input 
-            type="text"
-            name="createdAt"
-            placeholder="Created At"
-            class="form-control text-center"
-            >  -->
-           
-              <input type="submit"  class="btn btn-light">
-            </form> 
-        </a>
-        </span>
+
+
+<h1 class="text-center">All Jobs</h1>
+</br>
+<div id="box" style="display:flex;">
+    <span id="span1">
+            <a href="/jobs/new" class="btn btn-light">Create Job</a>
+    </span>
+    <!-- <span id="span4">
+        <form action="/jobs">
+            <label for="setter">Assign Setter:</label>
+            <select id="setters" name="setters">
+              <option value="A">Setter A</option>
+              <option value="B">Setter B</option>
+              <option value="C">Setter C</option>
+            </select>
+            
+            <input type="submit" value="Assign Setter" class="btn btn-light">
+          </form>
+</span> -->
+<span id="span5">  
+    <form action="/memos/new" method="POST">
+    <input type="submit" value="Create and Print Memo" class="btn btn-light">
+</form>
+</span>
+<span id="span6">
+    <a href="/memos" class="btn btn-light">All Memos</a>
+</span>
+
+</div>
+</br>
+    <span class="text-center">
+      <h3>Filter </h3>
+        <form action="/jobs/show"> 
+          <input 
+          type="text"
+          name="order_number"
+          placeholder="Order Number"
+          class="form-control text-center"
+          type="submit"
+          >
+          <input 
+          type="text"
+          name="sku"
+          placeholder="Sku"
+          class="form-control text-center"
+          >
+          <input 
+          type="text"
+          name="setter"
+          placeholder="Setter"
+          class="form-control text-center"
+          >
+          <input 
+          type="text"
+          name="date"
+          placeholder="Date (DD/MM/YY)"
+          class="form-control text-center"
+          >
+          <input 
+          type="text"
+          name="description"
+          placeholder="Description"
+          class="form-control text-center"
+          >
+          <input type="submit"  class="btn btn-light">
+        </form> 
+    </span>
+{% endblock %}

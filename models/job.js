@@ -8,6 +8,7 @@ const jobSchema = new Schema(
 		sku: { type: String, required: true },
 		quantity: { type: Number, required: true },
 		stones: { type: Number, required: true},
+		date: { type: String, required: true },
         description: { type: String, required: true },
         setter: { type: String, required: true},
 		checked: {type: Boolean},

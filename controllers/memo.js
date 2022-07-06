@@ -15,6 +15,7 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
 	Memo.find({})
+		.populate('job')
 		.then(memos => {
 			// const username = req.session.username
 			// const loggedIn = req.session.loggedIn
@@ -31,57 +32,45 @@ router.get('/', (req, res) => {
 		})
 })
 
-router.get('/:id', (req, res) => {
-	const memoId = req.params.id
-	console.log(memoId)
-	Memo.findById(memoId)
+// router.get('/:id', (req, res) => {
+// 	if (req.body.checked === 'on') {
+// 		console.log(req.body.checked)
+// 	}
+// 	const memoId = req.params.id
+// 	console.log(memoId)
+// 	Memo.findById(memoId)
 
-		.then((memos) => {
-			const username = req.session.username
-			const loggedIn = req.session.loggedIn
-			const userId = req.session.userId
-			res.render('printmemo.liquid', { memos, username, loggedIn, userId })
-		})
-		// if there is an error, show that instead
-		.catch((err) => {
-			console.log(err)
-			res.json({ err })
-		})
+// 		.then((memos) => {
+// 			const username = req.session.username
+// 			const loggedIn = req.session.loggedIn
+// 			const userId = req.session.userId
+// 			res.render('printmemo.liquid', { memos, username, loggedIn, userId })
+// 		})
+// 		// if there is an error, show that instead
+// 		.catch((err) => {
+// 			console.log(err)
+// 			res.json({ err })
+// 		})
+// })
+
+router.post('/memos/creatememo', (req,res) => {
+
+    const jobId = req.body.id
+    // console.log('first comment body', req.body)
+    req.body.author = req.session.userId
+    Job.find({checked: true})
+  
+        .then(memo => {
+            memo.job.push(req.body)
+            return memo.save()
+        })
+        .then(memo => {
+            res.redirect(``)
+        })
+    .catch(error => {
+        console.log(error)
+        res.send(error)
+    })
 })
-
-
-
-router.post('/new', (req,res)=> {
-	console.log(req.body)
-	console.log('req.session', req.session.userId)
-	const { username, userId, loggedIn } = req.session
-	// req.body.owner = req.session.userId
-	console.log('this is req.body', req.body)
-
-	// Job.find(req.body.checked)
-	// .then(jobs => {
-	// 	// const username = req.session.username
-	// 	// const loggedIn = req.session.loggedIn
-	// 	//console.log('this is the username of the session ', req.session.username)
-	// 	const { username, userId, loggedIn } = req.session
-	// 	console.log('this is the job', jobs)
-	// 	console.log('this is the params', req.params)
-	// 	// console.log('this is the req', req)
-	// 	// console.log('this is the res', res)
-	// })
-	// .catch(error => {
-	// 	res.redirect(`/error?error=${error}`)
-	// })
-
-	Memo.create(Job)
-		.then(memos => {
-			console.log('this was what is returned', memos)
-			res.redirect('/memos/:id')
-		})
-		.catch(error => {
-			res.redirect(`/error?error=${error}`)
-		})
-})
-
 
 module.exports = router

@@ -3,22 +3,11 @@
 
     <h1 class="text-center">All Jobs</h1>
     </br>
-    <div style="display:flex;">
+    <div id="box" style="display:flex;">
         <span id="span1">
                 <a href="/jobs/new" class="btn btn-light">Create Job</a>
         </span>
-    
-        <span id="span2">
-                <form action="/jobs/checked?_method=PUT" method="POST">
-                    <input type="submit" value="Check all Boxes" class="btn btn-light">
-                </form>
-        </span>
-        <span id="span3">
-            <form action="/jobs/unchecked?_method=PUT" method="POST">
-                <input type="submit" value="Uncheck all Boxes" class="btn btn-light">
-            </form>
-    </span>
-        <span id="span4">
+        <!-- <span id="span4">
             <form action="/jobs">
                 <label for="setter">Assign Setter:</label>
                 <select id="setters" name="setters">
@@ -29,10 +18,11 @@
                 
                 <input type="submit" value="Assign Setter" class="btn btn-light">
               </form>
-    </span>
+    </span> -->
     <span id="span5">  
-        <form action="/memos/new" method="POST">
+        <form action="/memos/creatememo" method="POST">
         <input type="submit" value="Create and Print Memo" class="btn btn-light">
+
     </form>
     </span>
     <span id="span6">
@@ -42,51 +32,53 @@
     </div>
     </br>
 
-    <h3 class="text-center">Filter </h3>
-    <div id="input">
-                    <form action="/jobs/show"> 
-                        <input 
-                        type="text"
-                        name="order_number"
-                        placeholder="Order Number"
-                        class="form-control text-center"
-                        type="submit"
-                        >
-            
-                    </br>
-              
-                        <input 
-                        type="text"
-                        name="sku"
-                        placeholder="Sku"
-                        class="form-control text-center"
-                        >
-                    </br>
-            
-                        <input 
-                        type="text"
-                        name="setter"
-                        placeholder="Setter"
-                        class="form-control text-center"
-                        >
-                    </br>
-                        <!-- <input 
-                        type="text"
-                        name="createdAt"
-                        placeholder="Date (Format is `2022-03-22`"
-                        class="form-control text-center"
-                        >  -->
-                        <input type="submit"  class="btn btn-light">
-                </form>  
-</div>
-</br>
+    <span class="text-center">
+        <h3>Filter </h3>
+          <form action="/jobs/show"> 
+            <input 
+            type="text"
+            name="order_number"
+            placeholder="Order Number"
+            class="form-control text-center"
+            type="submit"
+            >
+            <input 
+            type="text"
+            name="sku"
+            placeholder="Sku"
+            class="form-control text-center"
+            >
+            <select name="setter">
+                <option value="A">Setter A</option>
+                <option value="B">Setter B</option>
+                <option value="C">Setter C</option>
+              </select>
+            <input 
+            type="text"
+            name="date"
+            placeholder="Date (DD/MM/YY)"
+            class="form-control text-center"
+            >
+            <input 
+            type="text"
+            name="description"
+            placeholder="Description"
+            class="form-control text-center"
+            >
+            <input type="submit"  class="btn btn-light">
+          </form> 
+      </span>
 
+    </br>
  
   <table style="width:100%">
     <tr>
         <th> 
             <form action="/jobs/checked?_method=PUT" method="POST">
                 <input type="submit" value="Check all Boxes" class="btn btn-light">
+            </form>
+            <form action="/jobs/unchecked?_method=PUT" method="POST">
+                <input type="submit" value="Uncheck all Boxes" class="btn btn-light">
             </form>
         </th>
         <th>Order Number</th>
@@ -102,10 +94,19 @@
     {% for job in jobs %}
     <tr>
         <td> 
-            <input type="checkbox" name="checked" class="form-check-input"
+            <form action="/jobs/checked/{{job._id}}?_method=PUT" method="POST">
+            <input  onChange="this.form.submit()" type="checkbox" name="checked" class="form-check-input"
             {% if job.checked %}
-                checked
+            checked
             {% endif %}> 
+            <!-- onchange equals function where if check box has been checked add to array -
+            use event onChange creates event const (e) => {
+              if(e.target.checked) {
+                push to array 
+              }
+            } -->
+       
+        </form>
         </td>
         <td>{{job.order_number}}</td>
         <td> {{ job.sku }}</td>
@@ -114,8 +115,9 @@
         <td>{{ job.description }}</td>
         <td>{{ job.setter }}</td>
         <td> {{ job.createdAt.| slice: 0, 16}}</td>
-        <td>{{ username  | capitalize }}</td>
+        <td>{{ job.owner.name | capitalize }}</td>
         <td>
+          
             <form action="/jobs/{{job._id }}?_method=DELETE" method="POST">
                 <input type="submit" value="Delete this job" class="btn btn-light">
             </form>
