@@ -24,6 +24,7 @@ router.get('/', (req, res) => {
 			// console.log('this is the req', req)
 			// console.log('this is the res', res)
 			res.render('index', { jobs, username, loggedIn, userId })
+
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
@@ -46,10 +47,41 @@ router.get('/new', (req, res) => {
 })
 
 
+router.put('/checked', (req, res) => {
+	
+	
+	req.body.checked = req.body.checked === false ? false : true
+	console.log('req.body', req.body)
+	Job.updateMany({}, req.body,{ new: true })
+
+		.then((job) => {
+			console.log('the updated job', job)
+			res.redirect(`/jobs`)
+		})
+		// if an error, display that
+		.catch((error) => res.json(error))
+})
+router.put('/unchecked', (req, res) => {
+	
+	
+	req.body.checked = req.body.checked === true ? false : false
+	console.log('req.body', req.body)
+	Job.updateMany({}, req.body,{ new: true })
+
+		.then((job) => {
+			console.log('the updated job', job)
+			res.redirect(`/jobs`)
+		})
+		// if an error, display that
+		.catch((error) => res.json(error))
+})
+
+
 router.post('/new', (req,res)=> {
 	console.log(req.body)
 	console.log('req.session', req.session.userId)
 	const { username, userId, loggedIn } = req.session
+	req.body.checked = req.body.checked === 'on' ? true : false
 		req.body.owner = req.session.userId
 		Job.create(req.body)
 			.then(jobs => {
@@ -121,19 +153,21 @@ router.get('/show', (req, res) => {
 	let order = req.query.order_number;
 	let sku = req.query.sku;
 	let setter = req.query.setter
+	let createdAt = req.query.createdAt
 	console.log('req.query',req.query)
 	console.log('order', order)
 
-	Job.find({ $and: [
-		{ 
-			$or: [
-			{order_number: order}, 
+	Job.find({ 
+		 
+		$or: [
+			{$and: [{order_number: order}, {sku:sku}, {setter: setter}]},
+			{order_number: order, sku:sku}, 
+
 			{sku: sku},
-			{setter: setter}
-		]}, 
-		{order_number: order, sku:sku, setter: setter}
-	  ]
-	})
+			{setter: setter}, 
+			{createdAt: createdAt},
+		] 
+})
 		.then((jobs) => {
 			const username = req.session.username
 			const loggedIn = req.session.loggedIn

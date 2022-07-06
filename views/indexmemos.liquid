@@ -1,0 +1,12 @@
+{% layout "layout.liquid" %}
+{% block content %}
+
+<h1> All Memos </h1>
+
+{% for memo in memos %} 
+<h5 class="card-header"> Memo Number : {{memo.number}}  </h5>
+    <div class="card-body">
+           <a href="/memos/{{ memo._id }}" class="btn btn-light">Print Memo</a> 
+    </div>
+    {% endfor %}
+{% endblock %}

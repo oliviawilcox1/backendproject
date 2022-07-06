@@ -1,65 +1,126 @@
 {% layout "layout.liquid" %}
 {% block content %}
 
-<div class="text-center">
-    <div class="bg">
-        <h1 class="text-center">All Jobs</h1>
-            <a href="/jobs/new" class="btn btn-dark text-center">Create Job</a>
-        </div>
-            <!-- <h3>Assign</h3>
-                <label for="setter">Setters  </label>
-                    <select name="dog-names" id="dog-names">
-                        {% for job in jobs %}
-                            <option value="setter">{{job.setter}}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="setter">Setters  </label>
-                    <select name="dog-names" id="dog-names">
-                        {% for job in jobs %}
-                            <option value="setter">{{job.setter}}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="setter">Setters  </label>
-                    <select name="dog-names" id="dog-names">
-                        {% for job in jobs %}
-                            <option value="setter">{{job.setter}}</option>
-                        {% endfor %}
-                    </select>
-                    <label for="setter">Setters  </label>
-                    <select name="dog-names" id="dog-names">
-                        {% for job in jobs %}
-                            <option value="setter">{{job.setter}}</option>
-                        {% endfor %}
-                    </select> -->
-
-
-
-     {% for job in jobs %} 
-        <h5 class="card-header">  </h5>
-            <div class="card-body">
-                <input 
-                type="checkbox" 
-                name="checked"
-                class="form-check-input"
-                {% if job.checked %}
-                checked
-                {% endif %}
-                > </br>
-                    Order Number: {{ job.order_number }} </br>
-                    Job SKU: {{ job.sku }} </br>
-                    Quantity:{{ job.quantity }} </br>
-                    Stones: {{ job.stones }} </br>
-                    Drescription of Job: {{ job.description }} </br>
-                    Setter: {{ job.setter }} </br>
-                    Date created: {{ job.createdAt.| slice: 0, 16}} </br>
-                    Memo Number: </br>
-                    Created By: {{ username | capitalize }} </br>
-                
-                <a href="/jobs/{{ job._id }}" class="btn btn-light">Click on this Job</a> 
-                <form action="/jobs/{{job._id }}?_method=DELETE" method="POST">
-                    <input type="submit" value="delete this job" class="btn btn-danger">
+    <h1 class="text-center">All Jobs</h1>
+    </br>
+    <div style="display:flex;">
+        <span id="span1">
+                <a href="/jobs/new" class="btn btn-light">Create Job</a>
+        </span>
+    
+        <span id="span2">
+                <form action="/jobs/checked?_method=PUT" method="POST">
+                    <input type="submit" value="Check all Boxes" class="btn btn-light">
                 </form>
-            </div>
-        </div>
-    {% endfor %}
+        </span>
+        <span id="span3">
+            <form action="/jobs/unchecked?_method=PUT" method="POST">
+                <input type="submit" value="Uncheck all Boxes" class="btn btn-light">
+            </form>
+    </span>
+        <span id="span4">
+            <form action="/jobs">
+                <label for="setter">Assign Setter:</label>
+                <select id="setters" name="setters">
+                  <option value="A">Setter A</option>
+                  <option value="B">Setter B</option>
+                  <option value="C">Setter C</option>
+                </select>
+                
+                <input type="submit" value="Assign Setter" class="btn btn-light">
+              </form>
+    </span>
+    <span id="span5">  
+        <form action="/memos/new" method="POST">
+        <input type="submit" value="Create and Print Memo" class="btn btn-light">
+    </form>
+    </span>
+    <span id="span6">
+        <a href="/memos" class="btn btn-light">All Memos</a>
+    </span>
+
+    </div>
+    </br>
+
+    <h3 class="text-center">Filter </h3>
+    <div id="input">
+                    <form action="/jobs/show"> 
+                        <input 
+                        type="text"
+                        name="order_number"
+                        placeholder="Order Number"
+                        class="form-control text-center"
+                        type="submit"
+                        >
+            
+                    </br>
+              
+                        <input 
+                        type="text"
+                        name="sku"
+                        placeholder="Sku"
+                        class="form-control text-center"
+                        >
+                    </br>
+            
+                        <input 
+                        type="text"
+                        name="setter"
+                        placeholder="Setter"
+                        class="form-control text-center"
+                        >
+                    </br>
+                        <!-- <input 
+                        type="text"
+                        name="createdAt"
+                        placeholder="Date (Format is `2022-03-22`"
+                        class="form-control text-center"
+                        >  -->
+                        <input type="submit"  class="btn btn-light">
+                </form>  
+</div>
+</br>
+
+ 
+  <table style="width:100%">
+    <tr>
+        <th> 
+            <form action="/jobs/checked?_method=PUT" method="POST">
+                <input type="submit" value="Check all Boxes" class="btn btn-light">
+            </form>
+        </th>
+        <th>Order Number</th>
+        <th>SKU</th>
+        <th>Quantity</th>
+        <th>Stones</th>
+        <th>Description</th>
+        <th>Setter</th>
+        <th>Date Created</th>
+        <th>Created By</th>
+        <th>Delete This Job</th>
+    </tr>
+    {% for job in jobs %}
+    <tr>
+        <td> 
+            <input type="checkbox" name="checked" class="form-check-input"
+            {% if job.checked %}
+                checked
+            {% endif %}> 
+        </td>
+        <td>{{job.order_number}}</td>
+        <td> {{ job.sku }}</td>
+        <td>{{ job.quantity }}</td>
+        <td>{{ job.stones }}</td>
+        <td>{{ job.description }}</td>
+        <td>{{ job.setter }}</td>
+        <td> {{ job.createdAt.| slice: 0, 16}}</td>
+        <td>{{ username  | capitalize }}</td>
+        <td>
+            <form action="/jobs/{{job._id }}?_method=DELETE" method="POST">
+                <input type="submit" value="Delete this job" class="btn btn-light">
+            </form>
+        </td>
+      {% endfor %}
+    </tr>
+  </table>
 {% endblock %}

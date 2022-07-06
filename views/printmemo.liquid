@@ -1,0 +1,25 @@
+{% layout "layout.liquid" %}
+{% block content %}
+
+
+
+Gem Stone King Inc. 
+555 Eight Ave
+Room 300
+New York NY 10018 
+212-869-6776
+
+Assigned to:  {{memo.assigned}}
+{% for memo in memos %} 
+                    Order Number: {{ memo.order_number }} </br>
+                    Job SKU: {{ memo.sku }} </br>
+                    Quantity:{{ memo.quantity }} </br>
+                    Stones: {{ memo.stones }} </br>
+                    Drescription of Job: {{ memo.description }} </br>
+                    Setter: {{ memo.setter }} </br>
+                    Date created: {{ memo.createdAt.| slice: 0, 16}} </br>
+                    Memo Number: {{memo.number}}</br>
+                    Created By: {{ username | capitalize }} </br>
+            </div>
+{% endfor %}
+{% endblock %}

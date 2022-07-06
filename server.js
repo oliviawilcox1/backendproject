@@ -4,6 +4,7 @@ const express = require("express")
 const middleware = require("./utils/middleware")
 const JobRouter = require('./controllers/job')
 const UserRouter = require('./controllers/user')
+const MemoRouter = require('./controllers/memo')
 // Middleware
 const app = require("liquid-express-views")(express())
 middleware(app)
@@ -12,6 +13,7 @@ middleware(app)
 // Routes
 app.use('/jobs', JobRouter)
 app.use('/auth', UserRouter)
+app.use('/memos', MemoRouter)
 
 
 app.get('/', (req, res) => {
