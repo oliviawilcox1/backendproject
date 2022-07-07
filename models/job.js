@@ -1,6 +1,7 @@
 const mongoose = require('./connection')
 
 const User = require('./user')
+const Memo = require('./memo')
 const { Schema, model } = mongoose
 const jobSchema = new Schema(
     {
@@ -15,6 +16,10 @@ const jobSchema = new Schema(
         owner: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
+		},
+		memo: {
+			type: Schema.Types.ObjectId,
+			ref: 'Memo',
 		},
 	},
 	{ timestamps: true }

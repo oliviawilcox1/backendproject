@@ -53,24 +53,24 @@ router.get('/', (req, res) => {
 // 		})
 // })
 
-router.post('/memos/creatememo', (req,res) => {
+// router.post('/memos/creatememo', (req,res) => {
 
-    const jobId = req.body.id
-    // console.log('first comment body', req.body)
-    req.body.author = req.session.userId
-    Job.find({checked: true})
+//     const jobId = req.body.id
+//     // console.log('first comment body', req.body)
+//     req.body.author = req.session.userId
+//     Job.find({checked: true})
   
-        .then(memo => {
-            memo.job.push(req.body)
-            return memo.save()
-        })
-        .then(memo => {
-            res.redirect(``)
-        })
-    .catch(error => {
-        console.log(error)
-        res.send(error)
-    })
-})
+//         .then(memo => {
+//             memo.job.push(req.body)
+//             return memo.save()
+//         })
+//         .then(memo => {
+//             res.redirect(``)
+//         })
+//     .catch(error => {
+//         console.log(error)
+//         res.send(error)
+//     })
+// })
 
 module.exports = router

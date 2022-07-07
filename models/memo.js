@@ -3,6 +3,7 @@ const mongoose = require('./connection')
 const User = require('./user')
 const Job = require('./job')
 
+
 const { Schema, model } = mongoose
 const memoSchema = new Schema(
     {
@@ -11,10 +12,9 @@ const memoSchema = new Schema(
 			ref: 'User',
 		},
 		job: {
-			type: Schema.Types.ObjectId,
-			ref: 'Job'
-		}
+			type: Array,
 	},
+},
 	{ timestamps: true }
 )
 

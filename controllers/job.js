@@ -1,6 +1,7 @@
 const express = require('express')
 const Job = require('../models/job')
 const Memo = require('../models/memo')
+
 const router = express.Router()
 
 router.use((req, res, next) => {
@@ -119,23 +120,49 @@ router.post('/new', (req,res)=> {
 		})
 })
 // MEMOS 
-router.get('/show', (req, res) => {
-	// const jobId = req.params.id
-	console.log()
-	// console.log(jobId)
+router.post('/show/', (req, res) => {
+	const username = req.session.username
+	const loggedIn = req.session.loggedIn
+	const userId = req.session.userId
 	Job.find({checked: true})
-
-		.then((jobs) => {
-			const username = req.session.username
-			const loggedIn = req.session.loggedIn
-			const userId = req.session.userId
-			res.render('show.liquid', { jobs, username, loggedIn, userId })
-		})
-		// if there is an error, show that instead
+	.populate('owner')
+	.populate('memo')
+	.then(jobs => {
+		console.log('Checked Jobs', jobs)
+		Memo.create(req.body)
+			.then(memo => {
+			// const username = req.session.username
+			// const loggedIn = req.session.loggedIn
+			// const userId = req.session.userId
+			console.log('the memo', memo)
+			console.log('jobs', jobs)
+			memo.job.push(jobs)
+			console.log('the memo', memo)
+			return memo.save()
+			
+			// .then((memo) => {
+			// 	console.log('memo', memo)
+			// 	return memo.job.map((memos) => memos.toObject())
+			// })
+			.catch((err) => {
+			console.log(err)
+			res.json({ err })
+			})
+	}) 
+			.then(memo => {
+				memo.job.map((jobs) => console.log('jobs',jobs))
+				res.render('printmemo.liquid', { jobs,  username, loggedIn, userId })
+			})
+	})
 		.catch((err) => {
 			console.log(err)
 			res.json({ err })
 		})
+		// if there is an error, show that instead
+		// .catch((err) => {
+		// 	console.log(err)
+		// 	res.json({ err })
+		// })
 })
 
 // router.get('/filter/', (req, res) => {
