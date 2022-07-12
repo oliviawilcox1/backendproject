@@ -15,14 +15,14 @@ New York NY 10018
 Memo Number {{ memos._id }}</br>
 {% for arr in newArr %}
                     Job SKU: {{ arr.sku }} </br>
-                    Quantity:{{ memo.quantity }} </br>
-                    Stones: {{ memos.stones }} </br>
-                    Drescription of Job: {{ memos.description }} </br>
-                    Setter: {{ memos.setter }} </br>
+                    Quantity:{{ arr.quantity }} </br>
+                    Stones: {{ arr.stones }} </br>
+                    Drescription of Job: {{ arr.description }} </br>
+                    Setter: {{ arr.setter }} </br>
                     Date created: {{ memos.createdAt.| slice: 0, 16}} </br>
-                    Memo Number: {{ memos.number}}</br>
-                    Created By: {{ memos.name | capitalize }} </br>
+                    Created By: {{ arr.owner.username | capitalize }} </br>
             </div>
             {% endfor %}
+         
 
 {% endblock %}
