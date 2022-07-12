@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
 			const { username, userId, loggedIn } = req.session
 			// Once jobs are inserting try this
 			// return memos.job.map((memo) => memo.toObject())
+			console.log('memos', memos)
 			return memos.map((memo) => memo.toObject())
 		})
 		// .then((memos) => res.status(200).json({ memos: memos }))
@@ -33,6 +34,30 @@ router.get('/', (req, res) => {
 		})
 })
 
+
+// router.get('/previewmemo', (req,res)=> {
+// 	Job.find({checked: true})
+// 	.populate('owner')
+// 	.then(memo => {
+// 		const { username, userId, loggedIn } = req.session
+// 		console.log('memo.job', memo.job)
+// 		console.log('the memo', memo)
+// 		console.log('jobs', jobs)
+// 		console.log('the memo', memo)
+// 		return memo.save()
+// 			// .then((memo) => {
+// 			// 	console.log('memo', memo)
+// 			// 	return memo.job.map((memos) => memos.toObject())
+// 			 })
+
+// 			// As well, I will need to map through all of the stones in the Job array and multiply the quantity by $.50
+// 			.then((memo) => res.status(200).json({ memo: memo }))
+// 			.catch((err) => {
+// 			console.log(err)
+// 			res.json({ err })
+// 			})
+
+// })
 router.get('/:id', (req, res) => {
 	const memoId = req.params.id
 	console.log(memoId)
@@ -41,37 +66,16 @@ router.get('/:id', (req, res) => {
 		.populate('job')
 		.then((memos) => {
 			const { username, userId, loggedIn } = req.session
-			// This is undefined because there is currently no jobs
-			// Check back to see if it works after jobs are uploading
-			// console.log('memos.job', memos.job)
-			// return memos.job.map((memo) => memo.toObject())
-			res.render('printmemo.liquid', { memos, username, loggedIn, userId })
+			let newArr = []
+			memos.job.map((jobs) => newArr.push(jobs))
+			console.log(newArr)
+			res.render('printmemo.liquid', { memos, newArr, username, loggedIn, userId })
 		})
 		.catch((err) => {
 			console.log(err)
 			res.json({ err })
 		})
 })
-
-// router.post('/memos/creatememo', (req,res) => {
-
-//     const jobId = req.body.id
-//     // console.log('first comment body', req.body)
-//     req.body.author = req.session.userId
-//     Job.find({checked: true})
-  
-//         .then(memo => {
-//             memo.job.push(req.body)
-//             return memo.save()
-//         })
-//         .then(memo => {
-//             res.redirect(``)
-//         })
-//     .catch(error => {
-//         console.log(error)
-//         res.send(error)
-//     })
-// })
 
 router.delete('/:id', (req, res) => {
 	const memoId = req.params.id

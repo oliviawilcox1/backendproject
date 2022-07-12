@@ -11,10 +11,8 @@ const memoSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
-		job: {
-			type: Schema.Types.ObjectId,
-			ref: 'Job'
-	},
+		job: [{
+	}],
 },
 	{ timestamps: true }
 )

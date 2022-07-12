@@ -9,10 +9,13 @@ Room 300
 New York NY 10018 
 212-869-6776
 </br>
+<!-- {% for arr in newArr %}
+{{arr.sku}}
+{% endfor %} -->
 Memo Number {{ memos._id }}</br>
-                    <!-- Order Number: {{ memos._id }} </br> -->
-                    Job SKU: {{ memo.sku }} </br>
-                    Quantity:{{ memos.quantity }} </br>
+{% for arr in newArr %}
+                    Job SKU: {{ arr.sku }} </br>
+                    Quantity:{{ memo.quantity }} </br>
                     Stones: {{ memos.stones }} </br>
                     Drescription of Job: {{ memos.description }} </br>
                     Setter: {{ memos.setter }} </br>
@@ -20,5 +23,6 @@ Memo Number {{ memos._id }}</br>
                     Memo Number: {{ memos.number}}</br>
                     Created By: {{ memos.name | capitalize }} </br>
             </div>
+            {% endfor %}
 
 {% endblock %}

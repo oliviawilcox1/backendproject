@@ -17,10 +17,6 @@ const jobSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 		},
-		memo: {
-			type: Schema.Types.ObjectId,
-			ref: 'Memo',
-		},
 	},
 	{ timestamps: true }
 )
