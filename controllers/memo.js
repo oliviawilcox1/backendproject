@@ -15,16 +15,17 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
 	Memo.find({})
+	    .populate('owner')
 		.populate('job')
 		.then(memos => {
-			// const username = req.session.username
-			// const loggedIn = req.session.loggedIn
-			//console.log('this is the username of the session ', req.session.username)
 			const { username, userId, loggedIn } = req.session
-			console.log('this is the memo', memos)
-			console.log('this is the params', req.params)
-			// console.log('this is the req', req)
-			// console.log('this is the res', res)
+			// Once jobs are inserting try this
+			// return memos.job.map((memo) => memo.toObject())
+			return memos.map((memo) => memo.toObject())
+		})
+		// .then((memos) => res.status(200).json({ memos: memos }))
+		.then(memos => {
+			const { username, userId, loggedIn } = req.session
 			res.render('indexmemos', { memos, username, loggedIn, userId })
 		})
 		.catch(error => {
@@ -32,26 +33,25 @@ router.get('/', (req, res) => {
 		})
 })
 
-// router.get('/:id', (req, res) => {
-// 	if (req.body.checked === 'on') {
-// 		console.log(req.body.checked)
-// 	}
-// 	const memoId = req.params.id
-// 	console.log(memoId)
-// 	Memo.findById(memoId)
-
-// 		.then((memos) => {
-// 			const username = req.session.username
-// 			const loggedIn = req.session.loggedIn
-// 			const userId = req.session.userId
-// 			res.render('printmemo.liquid', { memos, username, loggedIn, userId })
-// 		})
-// 		// if there is an error, show that instead
-// 		.catch((err) => {
-// 			console.log(err)
-// 			res.json({ err })
-// 		})
-// })
+router.get('/:id', (req, res) => {
+	const memoId = req.params.id
+	console.log(memoId)
+	Memo.findById(memoId)
+		.populate('owner')
+		.populate('job')
+		.then((memos) => {
+			const { username, userId, loggedIn } = req.session
+			// This is undefined because there is currently no jobs
+			// Check back to see if it works after jobs are uploading
+			// console.log('memos.job', memos.job)
+			// return memos.job.map((memo) => memo.toObject())
+			res.render('printmemo.liquid', { memos, username, loggedIn, userId })
+		})
+		.catch((err) => {
+			console.log(err)
+			res.json({ err })
+		})
+})
 
 // router.post('/memos/creatememo', (req,res) => {
 
@@ -72,5 +72,18 @@ router.get('/', (req, res) => {
 //         res.send(error)
 //     })
 // })
+
+router.delete('/:id', (req, res) => {
+	const memoId = req.params.id
+	Memo.findByIdAndRemove(memoId)
+		.then((memo) => {
+			console.log('this is the response from memo', memo)
+			res.redirect('back')
+		})
+		.catch((error) => {
+			console.log(error)
+			res.json({ error })
+		})
+})
 
 module.exports = router

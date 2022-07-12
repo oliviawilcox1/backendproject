@@ -8,18 +8,17 @@ Gem Stone King Inc.
 Room 300
 New York NY 10018 
 212-869-6776
-
-Assigned to:  {{memo.assigned}}
-{% for job in jobs %} 
-                    Order Number: {{ job.order_number }} </br>
+</br>
+Memo Number {{ memos._id }}</br>
+                    <!-- Order Number: {{ memos._id }} </br> -->
                     Job SKU: {{ memo.sku }} </br>
-                    Quantity:{{ memo.quantity }} </br>
-                    Stones: {{ memo.stones }} </br>
-                    Drescription of Job: {{ memo.description }} </br>
-                    Setter: {{ memo.setter }} </br>
-                    Date created: {{ memo.createdAt.| slice: 0, 16}} </br>
-                    Memo Number: {{memo.number}}</br>
-                    Created By: {{ username | capitalize }} </br>
+                    Quantity:{{ memos.quantity }} </br>
+                    Stones: {{ memos.stones }} </br>
+                    Drescription of Job: {{ memos.description }} </br>
+                    Setter: {{ memos.setter }} </br>
+                    Date created: {{ memos.createdAt.| slice: 0, 16}} </br>
+                    Memo Number: {{ memos.number}}</br>
+                    Created By: {{ memos.name | capitalize }} </br>
             </div>
-{% endfor %}
+
 {% endblock %}

@@ -1,35 +1,26 @@
 {% layout "layout.liquid" %}
 {% block content %}
-
     <h1 class="text-center">All Jobs</h1>
     </br>
-    <div id="box" style="display:flex;">
-        <span id="span1">
-                <a href="/jobs/new" class="btn btn-light">Create Job</a>
-        </span>
-        <!-- <span id="span4">
-            <form action="/jobs">
-                <label for="setter">Assign Setter:</label>
-                <select id="setters" name="setters">
-                  <option value="A">Setter A</option>
-                  <option value="B">Setter B</option>
-                  <option value="C">Setter C</option>
-                </select>
-                
-                <input type="submit" value="Assign Setter" class="btn btn-light">
-              </form>
-    </span> -->
-    <span id="span5">  
-        <form action="/jobs/show" method="POST">
+  <!-- <span id="span4">
+    <form action="/jobs">
+      <label for="setter">Assign Setter:</label>
+        <select id="setters" name="setters">
+        <option value="A">Setter A</option>
+        <option value="B">Setter B</option>
+        <option value="C">Setter C</option>
+        </select>
+      <input type="submit" value="Assign Setter" class="btn btn-light">
+    </form>
+  </span> -->
+    <span class="text-center">
+        <form action="/jobs/creatememo" method="POST">
         <input type="submit" value="Create and Print Memo" class="btn btn-light">
 
     </form>
     </span>
-    <span id="span6">
-        <a href="/memos" class="btn btn-light">All Memos</a>
-    </span>
 
-    </div>
+
     </br>
 
     <span class="text-center">
@@ -67,8 +58,11 @@
             >
             <input type="submit"  class="btn btn-light">
           </form> 
-      </span>
-
+        </span>
+          <span class="text-center">
+              <a href="/jobs" class="btn btn-light">Clear Jobs</a>
+          </span>
+ 
     </br>
  
   <table style="width:100%">
@@ -99,13 +93,6 @@
             {% if job.checked %}
             checked
             {% endif %}> 
-            <!-- onchange equals function where if check box has been checked add to array -
-            use event onChange creates event const (e) => {
-              if(e.target.checked) {
-                push to array 
-              }
-            } -->
-       
         </form>
         </td>
         <td>{{job.order_number}}</td>

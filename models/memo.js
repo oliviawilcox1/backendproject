@@ -12,7 +12,8 @@ const memoSchema = new Schema(
 			ref: 'User',
 		},
 		job: {
-			type: Array,
+			type: Schema.Types.ObjectId,
+			ref: 'Job'
 	},
 },
 	{ timestamps: true }

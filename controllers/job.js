@@ -5,7 +5,6 @@ const Memo = require('../models/memo')
 const router = express.Router()
 
 router.use((req, res, next) => {
-
 	if (req.session.loggedIn) {
 		next()
 	} else {
@@ -18,11 +17,7 @@ router.get('/', (req, res) => {
 		.populate('owner')
 		.then(jobs => {
 			const { username, userId, loggedIn } = req.session
-			console.log('this is the job', jobs)
-			console.log('this is the params', req.params)
-
 			res.render('index', { jobs, username, loggedIn, userId })
-
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
@@ -39,22 +34,17 @@ router.get('/new', (req, res) => {
 			res.redirect(`/error?error=${error}`)
 		})
 })
-// let newArr = []
+
 router.put('/checked/:id', (req, res) => {
 	const jobId = req.params.id
 	req.body.checked = req.body.checked === 'on' ? true : false
 	console.log('req.body', req.body)
 	Job.findByIdAndUpdate(jobId, req.body,{ new: true })
 		.then((job) => {
-			// newArr.push(jobId)
-			// console.log(newArr)
-			console.log('the updated job', job)
 			res.redirect('back')
 		})
 		.catch((error) => res.json(error))
 })
-
-
 
 // router.post('/creatememo', (req,res) => {
 // 	if (req.body.checked === 'on') {
@@ -78,16 +68,11 @@ router.put('/checked/:id', (req, res) => {
 //     })
 // })
 
-
-
 router.put('/checked', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	req.body.checked = req.body.checked === false ? false : true
-	console.log('req.body', req.body)
 	Job.updateMany({}, req.body,{ new: true })
 		.then((job) => {
-
-			console.log('the updated job', job)
 			res.redirect('back')
 		})
 		.catch((error) => res.json(error))
@@ -95,90 +80,67 @@ router.put('/checked', (req, res) => {
 
 router.put('/unchecked', (req, res) => {
 	req.body.checked = req.body.checked === true ? false : false
-	console.log('req.body', req.body)
 	Job.updateMany({}, req.body,{ new: true })
 		.then((job) => {
-			console.log('the updated job', job)
 			res.redirect('back')
 		})
-
 		.catch((error) => res.json(error))
 })
 
 router.post('/new', (req,res)=> {
-	console.log(req.body)
 	const { username, userId, loggedIn } = req.session
 	req.body.checked = req.body.checked === 'on' ? true : false
 	req.body.owner = req.session.userId
 	Job.create(req.body)
 		.then(jobs => {
-			console.log('this was what is returned', jobs)
 			res.redirect('/jobs/new')
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
 		})
 })
-// MEMOS 
-router.post('/show/', (req, res) => {
+
+router.post('/creatememo/', (req, res) => {
 	const username = req.session.username
 	const loggedIn = req.session.loggedIn
 	const userId = req.session.userId
 	Job.find({checked: true})
 	.populate('owner')
-	.populate('memo')
 	.then(jobs => {
 		console.log('Checked Jobs', jobs)
-		Memo.create(req.body)
+		console.log('the req.body', req.body)
+		Memo.create(req.body.jobs)
 			.then(memo => {
-			// const username = req.session.username
-			// const loggedIn = req.session.loggedIn
-			// const userId = req.session.userId
-			console.log('the memo', memo)
-			console.log('jobs', jobs)
-			memo.job.push(jobs)
-			console.log('the memo', memo)
+				const { username, userId, loggedIn } = req.session
+				console.log('memo.job', memo.job)
+				console.log('the memo', memo)
+				console.log('jobs', jobs)
+				console.log('the memo', memo)
 			return memo.save()
-			
 			// .then((memo) => {
 			// 	console.log('memo', memo)
 			// 	return memo.job.map((memos) => memos.toObject())
 			// })
+
+			// As well, I will need to map through all of the stones in the Job array and multiply the quantity by $.50
+			.then((memo) => res.status(200).json({ memo: memo }))
 			.catch((err) => {
 			console.log(err)
 			res.json({ err })
 			})
 	}) 
-			.then(memo => {
-				memo.job.map((jobs) => console.log('jobs',jobs))
-				res.render('printmemo.liquid', { jobs,  username, loggedIn, userId })
-			})
+			// .then(memo => {
+			// 	// memo.map((jobs) => console.log('jobs',jobs))
+			// 	// res.render('printmemo.liquid', { memo,  username, loggedIn, userId })
+			// 	res.redirect(`memos/${memo._id}`)
+			// })
 	})
-		.catch((err) => {
-			console.log(err)
-			res.json({ err })
-		})
-		// if there is an error, show that instead
 		// .catch((err) => {
 		// 	console.log(err)
+		// 	// res.redirect('/nojobsselected')
 		// 	res.json({ err })
 		// })
 })
-
-// router.get('/filter/', (req, res) => {
-// 	Job.find({})
-// 		.then(jobs => {
-// 			const { username, userId, loggedIn } = req.session
-// 			console.log('this is the job', jobs)
-// 			console.log('this is the params', req.params)
-// 			res.render('filter', { jobs, username, loggedIn, userId })
-// 		})
-// 		.catch((err) => {
-// 			console.log('req.query',req.query)
-// 			console.log(err)
-// 			res.json({ err })
-// 		})
-//   });
 
 router.get('/show', (req, res) => {
 	let order = req.query.order_number;
