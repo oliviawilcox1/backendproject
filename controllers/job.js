@@ -119,8 +119,6 @@ router.post('/creatememo/', (req, res) => {
 			// })
 			})
 			// As well, I will need to map through all of the stones in the Job array and multiply the quantity by $.50
-			// .then((memo) => res.status(200).json({ memo: memo }))
-		
 			.then(memo => {
 				console.log(memo)
 				// memo.map((jobs) => console.log('jobs',jobs))

@@ -35,29 +35,23 @@ router.get('/', (req, res) => {
 })
 
 
-// router.get('/previewmemo', (req,res)=> {
-// 	Job.find({checked: true})
-// 	.populate('owner')
-// 	.then(memo => {
-// 		const { username, userId, loggedIn } = req.session
-// 		console.log('memo.job', memo.job)
-// 		console.log('the memo', memo)
-// 		console.log('jobs', jobs)
-// 		console.log('the memo', memo)
-// 		return memo.save()
-// 			// .then((memo) => {
-// 			// 	console.log('memo', memo)
-// 			// 	return memo.job.map((memos) => memos.toObject())
-// 			 })
+router.get('/previewmemo', (req,res)=> {
+	const { username, userId, loggedIn } = req.session
+	Job.find({checked: true})
+	.populate('owner')
+			// As well, I will need to map through all of the stones in the Job array and multiply the quantity by $.50
+			.then((jobs) => {		
+			console.log('jobs', jobs)
+			res.render('previewpage.liquid', { jobs,  username, loggedIn, userId })
+			})
 
-// 			// As well, I will need to map through all of the stones in the Job array and multiply the quantity by $.50
-// 			.then((memo) => res.status(200).json({ memo: memo }))
-// 			.catch((err) => {
-// 			console.log(err)
-// 			res.json({ err })
-// 			})
+			.catch((err) => {
+			console.log(err)
+			res.json({ err })
+			})
 
-// })
+})
+
 router.get('/:id', (req, res) => {
 	const memoId = req.params.id
 	console.log(memoId)
@@ -66,10 +60,19 @@ router.get('/:id', (req, res) => {
 		.populate('job')
 		.then((memos) => {
 			const { username, userId, loggedIn } = req.session
+			
 			let newArr = []
 			memos.job.map((jobs) => newArr.push(jobs))
-			console.log(newArr)
-			res.render('printmemo.liquid', { memos, newArr, username, loggedIn, userId })
+
+			let stoneSum = 0
+			newArr.map((jobs) => (stoneSum += jobs.stones))
+			stoneSum = stoneSum * .50
+
+
+			let sumQuantity = 0
+			newArr.map((jobs) => sumQuantity += jobs.quantity)
+
+			res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, username, loggedIn, userId })
 		})
 		.catch((err) => {
 			console.log(err)

@@ -1,28 +1,53 @@
 {% layout "layout.liquid" %}
 {% block content %}
 
-
-
-Gem Stone King Inc. 
-555 Eight Ave
-Room 300
-New York NY 10018 
-212-869-6776
 </br>
-<!-- {% for arr in newArr %}
-{{arr.sku}}
-{% endfor %} -->
-Memo Number {{ memos._id }}</br>
+Gem Stone King Inc. </br>
+555 Eight Ave</br>
+Room 300</br>
+New York NY 10018 </br>
+212-869-6776</br>
+</br>
+
+Memo Number {{ memos._id | slice: 15,17}}</br>
+
+<table style="width:100%">
+        <tr>
+            <th>Order Number</th>
+            <th>SKU</th>
+            <th>Quantity</th>
+            <th>Stones</th>
+            <th>Description</th>
+            <th>Setter</th>
+            <th>Date Created</th>
+            <th>Created By</th>
+        </tr>
 {% for arr in newArr %}
-                    Job SKU: {{ arr.sku }} </br>
-                    Quantity:{{ arr.quantity }} </br>
-                    Stones: {{ arr.stones }} </br>
-                    Drescription of Job: {{ arr.description }} </br>
-                    Setter: {{ arr.setter }} </br>
-                    Date created: {{ memos.createdAt.| slice: 0, 16}} </br>
-                    Created By: {{ arr.owner.username | capitalize }} </br>
-            </div>
-            {% endfor %}
-         
+        <tr>
+                <td>{{ arr.order_number}} </td>
+                <td>{{ arr.sku }} </td>
+                <td>{{ arr.quantity }} </td> 
+                <td>{{ arr.stones }} </td>
+                <td>{{ arr.description }} </td>
+                <td>{{ arr.setter }} </td> 
+                <td> {{ memos.createdAt.| slice: 0, 16}} </td>
+                <td> {{ arr.owner.username | capitalize }} </td>       
+        </tr>
+{% endfor %}
+</table>
+</br>
+<table style="width:30%">
+        <tr>
+                <th>Total Quantity:   {{sumQuantity}} </th>
+        </tr>
+        <tr>
+                <th>Total Stones: {{}}</th>
+        </tr>
+        <tr>
+                <th>Total Amount:  ${{stoneSum}} </th>
+        </tr>
+        <tr>
+      </tr>
+</table>  
 
 {% endblock %}

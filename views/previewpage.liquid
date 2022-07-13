@@ -1,0 +1,42 @@
+{% layout "layout.liquid" %}
+{% block content %}
+
+<h3 class="text-center">Preview Memo </h3>
+</br>
+Gem Stone King Inc. </br>
+555 Eight Ave</br>
+Room 300</br>
+New York NY 10018 </br>
+212-869-6776</br>
+</br>
+
+<table style="width:100%">
+    <tr>
+        <th>Order Number</th>
+        <th>SKU</th>
+        <th>Quantity</th>
+        <th>Stones</th>
+        <th>Description</th>
+        <th>Setter</th>
+        <th>Date Created</th>
+        <th>Created By</th>
+    </tr>
+
+    {% for job in jobs %}
+        <tr>
+            <td>{{job.order_number}}</td>
+            <td> {{ job.sku }}</td>
+            <td>{{ job.quantity }}</td>
+            <td>{{ job.stones }}</td>
+            <td>{{ job.description }}</td>
+            <td>{{ job.setter }}</td>
+            <td> {{ job.createdAt.| slice: 0, 16}}</td>
+            <td>{{ job.owner.name | capitalize }}</td>
+        </tr>
+    {% endfor %}
+</table>      
+</br>
+    <form action="/jobs/creatememo" method="POST" class="text-center">
+        <input type="submit" value="Create and Print Memo" class="btn btn-light">
+    </form>
+{% endblock %}
