@@ -6,9 +6,9 @@
 <h1 class="text-center">All Jobs</h1>
 </br>
 <div id="box" style="display:flex;">
-    <span id="span1">
+    <!-- <span id="span1">
             <a href="/jobs/new" class="btn btn-light">Create Job</a>
-    </span>
+    </span> -->
     <!-- <span id="span4">
         <form action="/jobs">
             <label for="setter">Assign Setter:</label>
@@ -21,16 +21,17 @@
             <input type="submit" value="Assign Setter" class="btn btn-light">
           </form>
 </span> -->
-<span id="span5">  
+<!-- <span id="span5">  
     <form action="/memos/new" method="POST">
     <input type="submit" value="Create and Print Memo" class="btn btn-light">
 </form>
-</span>
-<span id="span6">
+</span> -->
+<!-- <span id="span6">
     <a href="/memos" class="btn btn-light">All Memos</a>
-</span>
+</span> -->
 
 </div>
+<button class="btn btn-dark"> <a href="/memos/previewmemo"> Preview Memo </a></button>
 </br>
     <span class="text-center">
       <h3>Filter </h3>
@@ -69,4 +70,58 @@
           <input type="submit"  class="btn btn-light">
         </form> 
     </span>
+
+
+    <table style="width:100%">
+      <tr>
+          <th> 
+              <form action="/jobs/checked?_method=PUT" method="POST">
+                  <input type="submit" value="Check all Boxes" class="btn btn-light">
+              </form>
+              <form action="/jobs/unchecked?_method=PUT" method="POST">
+                  <input type="submit" value="Uncheck all Boxes" class="btn btn-light">
+              </form>
+          </th>
+          <th>Order Number</th>
+          <th>SKU</th>
+          <th>Quantity</th>
+          <th>Stones</th>
+          <th>Description</th>
+          <th>Setter</th>
+          <th>Date Created</th>
+          <th>Created By</th>
+          <th>Delete This Job</th>
+      </tr>
+      {% for job in jobs %}
+      <tr>
+          <td> 
+              <form action="/jobs/checked/{{job._id}}?_method=PUT" method="POST">
+              <input  onChange="this.form.submit()" type="checkbox" name="checked" class="form-check-input"
+              {% if job.checked %}
+              checked
+              {% endif %}> 
+          </form>
+          </td>
+          <td>{{job.order_number}}</td>
+          <td> {{ job.sku }}</td>
+          <td>{{ job.quantity }}</td>
+          <td>{{ job.stones }}</td>
+          <td>{{ job.description }}</td>
+          <td>{{ job.setter }}</td>
+          <td> {{ job.createdAt.| slice: 0, 16}}</td>
+          <td>{{ job.owner.name | capitalize }}</td>
+          <td>
+            
+              <form action="/jobs/{{job._id }}?_method=DELETE" method="POST">
+                  <input type="submit" value="Delete this job" class="btn btn-light">
+              </form>
+          </td>
+
+         
+        {% endfor %}
+        <span class="text-center">
+            <a href="/jobs" class="btn btn-dark ">Clear Filter</a>
+        </span>
+      </tr>
+    </table>
 {% endblock %}

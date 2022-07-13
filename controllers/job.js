@@ -46,33 +46,14 @@ router.put('/checked/:id', (req, res) => {
 		.catch((error) => res.json(error))
 })
 
-// router.post('/creatememo', (req,res) => {
-// 	if (req.body.checked === 'on') {
-// 		console.log(req.body.checked)
-// 	}
-//     const jobId = req.body.id
-//     console.log('first comment body', req.body)
-//     //we'll findn the fruit with fruitid
-//     Job.find(req.body.checked === true)
-//     //then we'll adjust req.body to include an author
-//         .then(memo => {
-//             memo.job.push(req.body)
-//             return memo.save()
-//         })
-//         .then(memo => {
-//             res.redirect(`/memo`)
-//         })
-//     .catch(error => {
-//         console.log(error)
-//         res.send(error)
-//     })
-// })
 
 router.put('/checked', (req, res) => {
 	const { username, userId, loggedIn } = req.session
+	console.log(req.body)
 	req.body.checked = req.body.checked === false ? false : true
 	Job.updateMany({}, req.body,{ new: true })
 		.then((job) => {
+			console.log(job)
 			res.redirect('back')
 		})
 		.catch((error) => res.json(error))
@@ -161,7 +142,7 @@ router.get('/show', (req, res) => {
 			const username = req.session.username
 			const loggedIn = req.session.loggedIn
 			const userId = req.session.userId
-			res.render('index', {jobs, username, loggedIn, userId})
+			res.render('filter', {jobs, username, loggedIn, userId})
 		})
 		.catch((error) => {
 			console.log(error)
