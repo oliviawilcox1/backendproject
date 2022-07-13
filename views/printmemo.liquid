@@ -2,14 +2,27 @@
 {% block content %}
 
 </br>
-Gem Stone King Inc. </br>
-555 Eight Ave</br>
-Room 300</br>
-New York NY 10018 </br>
-212-869-6776</br>
-</br>
 
-Memo Number {{ memos._id | slice: 15,17}}</br>
+<div style="display:flex; justify-content: space-around;">
+<div>
+        <h4>Gem Stone King Inc. </h4>
+        555 Eight Ave</br>
+        Room 300</br>
+        New York NY 10018 </br>
+        212-869-6776</br>
+        </br>
+</div>
+
+<div> 
+        <h4> Job Number: </h4> {{ memos._id | slice: 15,17}}</br>
+</div>
+<div>
+        <h4> Date: </h4> {{ memos.createdAt.| slice: 0, 16}} 
+</div>
+
+
+</div>
+
 
 <table style="width:100%">
         <tr>
@@ -18,20 +31,19 @@ Memo Number {{ memos._id | slice: 15,17}}</br>
             <th>Quantity</th>
             <th>Stones</th>
             <th>Description</th>
-            <th>Setter</th>
-            <th>Date Created</th>
-            <th>Created By</th>
+            
+        
         </tr>
 {% for arr in newArr %}
         <tr>
-                <td>{{ arr.order_number}} </td>
                 <td>{{ arr.sku }} </td>
+                <td>{{ arr.order_number}} </td>
                 <td>{{ arr.quantity }} </td> 
                 <td>{{ arr.stones }} </td>
                 <td>{{ arr.description }} </td>
-                <td>{{ arr.setter }} </td> 
-                <td> {{ memos.createdAt.| slice: 0, 16}} </td>
-                <td> {{ arr.owner.username | capitalize }} </td>       
+              
+                <!-- <td> {{ memos.createdAt.| slice: 0, 16}} </td>
+                <td> {{ arr.owner.username | capitalize }} </td>        -->
         </tr>
 {% endfor %}
 </table>
@@ -49,5 +61,18 @@ Memo Number {{ memos._id | slice: 15,17}}</br>
         <tr>
       </tr>
 </table>  
+</br>
+
+<div style="display:flex; justify-content: space-around;">
+        <div>
+                <h4> Received By: </h4> </br>
+        </div>
+        <div>
+                <p>   Name:   ___________________</p>
+        </div>
+        <div>
+                <p>Signature: ___________________</p>
+        </div>  
+</div>
 
 {% endblock %}
