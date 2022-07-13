@@ -89,22 +89,31 @@ router.post('/creatememo/', (req, res) => {
 	.populate('owner')
 	.then(jobs => {
 		console.log('Checked Jobs', jobs)
-		// console.log('the req.body', req.body)
 		 Memo.create({job: jobs})
 			.then(memo => {
-		// 		const { username, userId, loggedIn } = req.session
+		    // const { username, userId, loggedIn } = req.session
 		    console.log('the memo', memo._id)
 			return memo.save()
-			// .then((memo) => {
-			// 	return memo.job.map((memos) => memos.toObject())
-			// })
 			})
-			// As well, I will need to map through all of the stones in the Job array and multiply the quantity by $.50
-			.then(memo => {
-				console.log(memo)
-				// memo.map((jobs) => console.log('jobs',jobs))
-				//  res.render('printmemo.liquid', { memo,  username, loggedIn, userId })
-				res.redirect(`memos/${memo._id}`)
+
+			.then(memos => {
+				const { username, userId, loggedIn } = req.session
+			
+				let newArr = []
+				memos.job.map((jobs) => newArr.push(jobs))
+	
+				let stoneSum = 0
+				newArr.map((jobs) => (stoneSum += jobs.stones))
+				stoneSum = stoneSum * .50
+	
+	
+				let sumQuantity = 0
+				newArr.map((jobs) => sumQuantity += jobs.quantity)
+	
+				res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, username, loggedIn, userId })
+		
+
+				// res.redirect(`memos/${memo._id}`)
 			})
 	}) 
 			.catch((err) => {
