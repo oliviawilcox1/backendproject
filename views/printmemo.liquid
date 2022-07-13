@@ -4,23 +4,20 @@
 </br>
 
 <div style="display:flex; justify-content: space-around;">
-<div>
-        <h4>Gem Stone King Inc. </h4>
-        555 Eight Ave</br>
-        Room 300</br>
-        New York NY 10018 </br>
-        212-869-6776</br>
-        </br>
-</div>
-
-<div> 
-        <h4> Job Number: </h4> {{ memos._id | slice: 15,17}}</br>
-</div>
-<div>
-        <h4> Date: </h4> {{ memos.createdAt.| slice: 0, 16}} 
-</div>
-
-
+        <div>
+                <h4>Gem Stone King Inc. </h4>
+                555 Eight Ave</br>
+                Room 300</br>
+                New York NY 10018 </br>
+                212-869-6776</br>
+                </br>
+        </div>
+        <div> 
+                <h4> Job Number: </h4> {{ memos._id | slice: 15,17}}</br>
+        </div>
+        <div>
+                <h4> Date: </h4> {{ memos.createdAt.| slice: 0, 16}} 
+        </div>
 </div>
 
 
@@ -31,8 +28,6 @@
             <th>Quantity</th>
             <th>Stones</th>
             <th>Description</th>
-            
-        
         </tr>
 {% for arr in newArr %}
         <tr>
@@ -41,9 +36,6 @@
                 <td>{{ arr.quantity }} </td> 
                 <td>{{ arr.stones }} </td>
                 <td>{{ arr.description }} </td>
-              
-                <!-- <td> {{ memos.createdAt.| slice: 0, 16}} </td>
-                <td> {{ arr.owner.username | capitalize }} </td>        -->
         </tr>
 {% endfor %}
 </table>
@@ -53,7 +45,7 @@
                 <th>Total Quantity:   {{sumQuantity}} </th>
         </tr>
         <tr>
-                <th>Total Stones: {{}}</th>
+                <th>Total Stones: {{stonesQuantity}}</th>
         </tr>
         <tr>
                 <th>Total Amount:  ${{stoneSum}} </th>

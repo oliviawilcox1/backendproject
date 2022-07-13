@@ -72,7 +72,10 @@ router.get('/:id', (req, res) => {
 			let sumQuantity = 0
 			newArr.map((jobs) => sumQuantity += jobs.quantity)
 
-			res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, username, loggedIn, userId })
+			let stonesQuantity = 0
+			newArr.map((jobs) => stonesQuantity += jobs.stones)
+
+			res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, stonesQuantity, username, loggedIn, userId })
 		})
 		.catch((err) => {
 			console.log(err)

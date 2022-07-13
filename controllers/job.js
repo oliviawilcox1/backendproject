@@ -109,11 +109,14 @@ router.post('/creatememo/', (req, res) => {
 	
 				let sumQuantity = 0
 				newArr.map((jobs) => sumQuantity += jobs.quantity)
+
+				let stonesQuantity = 0
+				newArr.map((jobs) => stonesQuantity += jobs.stones)
 	
-				res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, username, loggedIn, userId })
+				// res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, stonesQuantity, username, loggedIn, userId })
 		
 
-				// res.redirect(`memos/${memo._id}`)
+				 res.redirect(`memos/${memos._id}`)
 			})
 	}) 
 			.catch((err) => {
@@ -122,6 +125,43 @@ router.post('/creatememo/', (req, res) => {
 				res.json({ err })
 				})
 	})
+
+
+router.get('/memos/:id', (req, res) => {
+	const memoId = req.params.id
+	console.log(memoId)
+	Memo.findById(memoId)
+		.populate('owner')
+		.populate('job')
+		.then((memos) => {
+			const { username, userId, loggedIn } = req.session
+			
+			let newArr = []
+			memos.job.map((jobs) => newArr.push(jobs))
+
+			let stoneSum = 0
+			newArr.map((jobs) => (stoneSum += jobs.stones))
+			stoneSum = stoneSum * .50
+
+
+			let sumQuantity = 0
+			newArr.map((jobs) => sumQuantity += jobs.quantity)
+
+			let stonesQuantity = 0
+			newArr.map((jobs) => stonesQuantity += jobs.stones)
+
+			res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, stonesQuantity, username, loggedIn, userId })
+		})
+		.catch((err) => {
+			console.log(err)
+			res.json({ err })
+		})
+})
+	
+
+
+
+
 
 
 router.get('/show', (req, res) => {
@@ -147,6 +187,7 @@ router.get('/show', (req, res) => {
 		{date: date}
 	]
 })
+	.populate('owner')
 		.then((jobs) => {
 			const username = req.session.username
 			const loggedIn = req.session.loggedIn

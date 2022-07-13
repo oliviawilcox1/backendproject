@@ -90,7 +90,7 @@
           <th>Setter</th>
           <th>Date Created</th>
           <th>Created By</th>
-          <th>Delete This Job</th>
+          <!-- <th>Delete This Job</th> -->
       </tr>
       {% for job in jobs %}
       <tr>
@@ -108,14 +108,14 @@
           <td>{{ job.stones }}</td>
           <td>{{ job.description }}</td>
           <td>{{ job.setter }}</td>
-          <td> {{ job.createdAt.| slice: 0, 16}}</td>
+          <td> {{ job.createdAt| slice: 0, 16}}</td>
           <td>{{ job.owner.name | capitalize }}</td>
-          <td>
+          <!-- <td>
             
               <form action="/jobs/{{job._id }}?_method=DELETE" method="POST">
                   <input type="submit" value="Delete this job" class="btn btn-light">
               </form>
-          </td>
+          </td> -->
 
          
         {% endfor %}
