@@ -13,11 +13,16 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
+	req.body.checked = req.body.checked === true ? false : false
+	
 	Job.find({})
 		.populate('owner')
 		.then(jobs => {
 			const { username, userId, loggedIn } = req.session
-			res.render('index', { jobs, username, loggedIn, userId })
+			Job.updateMany({jobs}, req.body,{ new: true })
+				.then((job) => {
+				res.render('index', { jobs, username, loggedIn, userId })
+		})
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
@@ -189,10 +194,9 @@ router.get('/show', (req, res) => {
 			const username = req.session.username
 			const loggedIn = req.session.loggedIn
 			const userId = req.session.userId
-		
-
 			console.log(jobs)
-			Job.updateMany({	$or: [
+			Job.updateMany({	
+				$or: [
 				{order_number: order, sku: sku, setter: setter, date: date}, 
 				{order_number: order, sku: sku, date: date}, 
 				{order_number: order, sku: sku},
@@ -213,7 +217,7 @@ router.get('/show', (req, res) => {
 					res.render('filter', {jobs, username, loggedIn, userId})
 					// res.redirect('back')
 				})
-
+			
 		})
 		.catch((error) => {
 			console.log(error)
@@ -221,21 +225,7 @@ router.get('/show', (req, res) => {
 		})
 })	
 
-// router.put('/checkedfilter', (req, res) => {
-// 	const { username, userId, loggedIn } = req.session
-// 	console.log('req.body', req.body)
-// 	console.log('req.query', req.query.order_number)
-// 	req.body.checked = req.body.checked === false ? false : true
 
-
-// 	Job.updateMany({}, req.body,{ new: true })
-// 		.then((job) => {
-// 			console.log(job)
-// 			res.redirect('back')
-// 		})
-
-// 		.catch((error) => res.json(error))
-// })
 
 
 router.delete('/:id', (req, res) => {

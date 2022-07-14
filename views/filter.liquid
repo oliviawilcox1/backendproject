@@ -74,23 +74,23 @@
 
     <table style="width:100%">
       <tr>
-          <th> 
+    
             
-              <form action="/jobs/checkedfilter/{{jobs._id }}?_method=PUT" method="POST">
+              <!-- <form action="/jobs/checkedfilter/{{jobs._id }}?_method=PUT" method="POST">
                   <input  type="submit" value="Check all Boxes" class="btn btn-light"
                   >
                  
-              </form>
-           
+              </form> -->
+<!--            
               <input  onChange="this.form.submit()" type="checkbox" name="checked" class="form-check-input"
               {% if job.checked %}
               checked
-              {% endif %}>
+              {% endif %}> -->
 
-              <form action="/jobs/unchecked?_method=PUT" method="POST">
+              <!-- <form action="/jobs/unchecked?_method=PUT" method="POST">
                   <input type="submit" value="Uncheck all Boxes" class="btn btn-light">
-              </form>
-          </th>
+              </form> -->
+          <th>Checked</th>
           <th>Order Number</th>
           <th>SKU</th>
           <th>Quantity</th>
