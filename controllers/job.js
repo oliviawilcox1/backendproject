@@ -50,6 +50,7 @@ router.put('/checked/:id', (req, res) => {
 router.put('/checked', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	console.log(req.body)
+
 	req.body.checked = req.body.checked === false ? false : true
 	Job.updateMany({}, req.body,{ new: true })
 		.then((job) => {
@@ -58,6 +59,7 @@ router.put('/checked', (req, res) => {
 		})
 		.catch((error) => res.json(error))
 })
+
 
 router.put('/unchecked', (req, res) => {
 	req.body.checked = req.body.checked === true ? false : false
@@ -159,17 +161,12 @@ router.get('/memos/:id', (req, res) => {
 })
 	
 
-
-
-
-
-
 router.get('/show', (req, res) => {
 	let order = req.query.order_number;
 	let sku = req.query.sku;
 	let setter = req.query.setter
 	let date = req.query.date
-
+	req.body.checked = req.body.checked === false ? false : true
 	Job.find({ 
 		$or: [
 		{order_number: order, sku: sku, setter: setter, date: date}, 
@@ -192,13 +189,54 @@ router.get('/show', (req, res) => {
 			const username = req.session.username
 			const loggedIn = req.session.loggedIn
 			const userId = req.session.userId
-			res.render('filter', {jobs, username, loggedIn, userId})
+		
+
+			console.log(jobs)
+			Job.updateMany({	$or: [
+				{order_number: order, sku: sku, setter: setter, date: date}, 
+				{order_number: order, sku: sku, date: date}, 
+				{order_number: order, sku: sku},
+				{order_number: order, date: date},
+				{order_number: order, setter: setter, date: date},
+				{order_number: order, setter: setter},
+				{date: date, setter: setter},
+				{sku: sku, date: date},
+				{sku: sku, setter: setter},
+				{setter: setter},
+				{sku: sku},
+				{order_number: order},
+				{date: date}
+			]}, req.body, {new: true})
+				.then((job) => {
+					console.log('jobs',jobs)
+					console.log('job', job)
+					res.render('filter', {jobs, username, loggedIn, userId})
+					// res.redirect('back')
+				})
+
 		})
 		.catch((error) => {
 			console.log(error)
 			res.json({ error })
 		})
 })	
+
+// router.put('/checkedfilter', (req, res) => {
+// 	const { username, userId, loggedIn } = req.session
+// 	console.log('req.body', req.body)
+// 	console.log('req.query', req.query.order_number)
+// 	req.body.checked = req.body.checked === false ? false : true
+
+
+// 	Job.updateMany({}, req.body,{ new: true })
+// 		.then((job) => {
+// 			console.log(job)
+// 			res.redirect('back')
+// 		})
+
+// 		.catch((error) => res.json(error))
+// })
+
 
 router.delete('/:id', (req, res) => {
 	const jobId = req.params.id
