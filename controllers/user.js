@@ -65,7 +65,6 @@ router.post('/login', async (req, res) => {
 	
 		.catch((error) => {
 			console.log('the error', error);
-			
 			res.redirect(`/error?error=${error}`)
 		})
 })

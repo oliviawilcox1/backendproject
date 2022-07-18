@@ -14,7 +14,6 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
 	req.body.checked = req.body.checked === true ? false : false
-	
 	Job.find({})
 		.populate('owner')
 		.then(jobs => {
@@ -54,12 +53,9 @@ router.put('/checked/:id', (req, res) => {
 
 router.put('/checked', (req, res) => {
 	const { username, userId, loggedIn } = req.session
-	console.log(req.body)
-
 	req.body.checked = req.body.checked === false ? false : true
 	Job.updateMany({}, req.body,{ new: true })
 		.then((job) => {
-			console.log(job)
 			res.redirect('back')
 		})
 		.catch((error) => res.json(error))
@@ -95,14 +91,11 @@ router.post('/creatememo/', (req, res) => {
 	Job.find({checked: true}).lean()
 	.populate('owner')
 	.then(jobs => {
-		console.log('Checked Jobs', jobs)
+	
 		 Memo.create({job: jobs})
 			.then(memo => {
-		    // const { username, userId, loggedIn } = req.session
-		    console.log('the memo', memo._id)
 			return memo.save()
 			})
-
 			.then(memos => {
 				const { username, userId, loggedIn } = req.session
 			
@@ -113,7 +106,6 @@ router.post('/creatememo/', (req, res) => {
 				newArr.map((jobs) => (stoneSum += jobs.stones))
 				stoneSum = stoneSum * .50
 	
-	
 				let sumQuantity = 0
 				newArr.map((jobs) => sumQuantity += jobs.quantity)
 
@@ -121,8 +113,6 @@ router.post('/creatememo/', (req, res) => {
 				newArr.map((jobs) => stonesQuantity += jobs.stones)
 	
 				// res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, stonesQuantity, username, loggedIn, userId })
-		
-
 				 res.redirect(`memos/${memos._id}`)
 			})
 	}) 
@@ -136,7 +126,6 @@ router.post('/creatememo/', (req, res) => {
 
 router.get('/memos/:id', (req, res) => {
 	const memoId = req.params.id
-	console.log(memoId)
 	Memo.findById(memoId)
 		.populate('owner')
 		.populate('job')
@@ -194,7 +183,6 @@ router.get('/show', (req, res) => {
 			const username = req.session.username
 			const loggedIn = req.session.loggedIn
 			const userId = req.session.userId
-			console.log(jobs)
 			Job.updateMany({	
 				$or: [
 				{order_number: order, sku: sku, setter: setter, date: date}, 
@@ -212,10 +200,7 @@ router.get('/show', (req, res) => {
 				{date: date}
 			]}, req.body, {new: true})
 				.then((job) => {
-					console.log('jobs',jobs)
-					console.log('job', job)
 					res.render('filter', {jobs, username, loggedIn, userId})
-					// res.redirect('back')
 				})
 			
 		})
@@ -226,13 +211,10 @@ router.get('/show', (req, res) => {
 })	
 
 
-
-
 router.delete('/:id', (req, res) => {
 	const jobId = req.params.id
 	Job.findByIdAndRemove(jobId)
 		.then((job) => {
-			console.log('this is the response from job', job)
 			res.redirect('/jobs')
 		})
 		.catch((error) => {

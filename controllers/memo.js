@@ -19,14 +19,6 @@ router.get('/', (req, res) => {
 		.populate('job')
 		.then(memos => {
 			const { username, userId, loggedIn } = req.session
-			// Once jobs are inserting try this
-			// return memos.job.map((memo) => memo.toObject())
-			console.log('memos', memos)
-			return memos.map((memo) => memo.toObject())
-		})
-		// .then((memos) => res.status(200).json({ memos: memos }))
-		.then(memos => {
-			const { username, userId, loggedIn } = req.session
 			res.render('indexmemos', { memos, username, loggedIn, userId })
 		})
 		.catch(error => {
@@ -34,14 +26,11 @@ router.get('/', (req, res) => {
 		})
 })
 
-
 router.get('/previewmemo', (req,res)=> {
 	const { username, userId, loggedIn } = req.session
 	Job.find({checked: true})
 	.populate('owner')
-			// As well, I will need to map through all of the stones in the Job array and multiply the quantity by $.50
 			.then((jobs) => {		
-			console.log('jobs', jobs)
 			res.render('previewpage.liquid', { jobs,  username, loggedIn, userId })
 			})
 
@@ -54,20 +43,18 @@ router.get('/previewmemo', (req,res)=> {
 
 router.get('/:id', (req, res) => {
 	const memoId = req.params.id
-	console.log(memoId)
 	Memo.findById(memoId)
 		.populate('owner')
 		.populate('job')
 		.then((memos) => {
 			const { username, userId, loggedIn } = req.session
-			
+			// Initializing a new Array and pushing each job
 			let newArr = []
 			memos.job.map((jobs) => newArr.push(jobs))
-
+			// Going through the array and adding the number of stones and multiplying them to get the total amount
 			let stoneSum = 0
 			newArr.map((jobs) => (stoneSum += jobs.stones))
 			stoneSum = stoneSum * .50
-
 
 			let sumQuantity = 0
 			newArr.map((jobs) => sumQuantity += jobs.quantity)
@@ -87,7 +74,6 @@ router.delete('/:id', (req, res) => {
 	const memoId = req.params.id
 	Memo.findByIdAndRemove(memoId)
 		.then((memo) => {
-			console.log('this is the response from memo', memo)
 			res.redirect('back')
 		})
 		.catch((error) => {
