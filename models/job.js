@@ -1,7 +1,7 @@
 const mongoose = require('./connection')
-
 const User = require('./user')
 const Memo = require('./memo')
+
 const { Schema, model } = mongoose
 const jobSchema = new Schema(
     {

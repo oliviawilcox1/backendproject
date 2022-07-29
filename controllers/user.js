@@ -13,13 +13,11 @@ router.post('/signup', async (req, res) => {
 		req.body.password,
 		await bcrypt.genSalt(10)
 	)
-
+	// Will hash the password after the user is created and there is no errors
 	User.create(req.body)
-	
 		.then((user) => {
 			res.redirect('/auth/login')
 		})
-
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
 		})
@@ -30,45 +28,31 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-
-	console.log('req.body', req.body);
-	
 	const { username, password } = req.body
-
+	// Find the user
 	User.findOne({ username: username })
 		.then(async (user) => {
-	
-			if (user) 
-            {
+			// if user exists compare passwords
+			if (user) {
 				const result = await bcrypt.compare(password, user.password)
-
-				if (result) 
-                {
-				
+				if (result) {
+					// if its correct they are now logged in and redirect home
 					req.session.username = user.username
 					req.session.loggedIn = true
 					req.session.userId = user.id
-
           			const { username, loggedIn, userId } = req.session
-
-				
 					res.redirect('/')
-				} else 
-                {
+				} else {
 					res.redirect('/error?error=username%20or%20password%20incorrect')
 				}
-			} else 
-            {
+			} else {
 				res.redirect('/error?error=That%20user%20does%20not%20exist')
 			}
 		})
-	
 		.catch((error) => {
-			console.log('the error', error);
 			res.redirect(`/error?error=${error}`)
 		})
 })
-
 
 
 router.get('/logout', (req, res) => {

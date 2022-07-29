@@ -14,12 +14,13 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
+	// Finding all memos
 	Memo.find({})
 	    .populate('owner')
 		.populate('job')
 		.then(memos => {
 			const { username, userId, loggedIn } = req.session
-			res.render('indexmemos', { memos, username, loggedIn, userId })
+			res.render('memos/indexmemos', { memos, username, loggedIn, userId })
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
@@ -28,12 +29,12 @@ router.get('/', (req, res) => {
 
 router.get('/previewmemo', (req,res)=> {
 	const { username, userId, loggedIn } = req.session
+	// Sample Memo Before actually creating it to see if this is the correct data you want to make a memo with
 	Job.find({checked: true})
 	.populate('owner')
 			.then((jobs) => {		
-			res.render('previewpage.liquid', { jobs,  username, loggedIn, userId })
+			res.render('memos/previewpage.liquid', { jobs,  username, loggedIn, userId })
 			})
-
 			.catch((err) => {
 			console.log(err)
 			res.json({ err })
@@ -48,21 +49,21 @@ router.get('/:id', (req, res) => {
 		.populate('job')
 		.then((memos) => {
 			const { username, userId, loggedIn } = req.session
-			// Initializing a new Array and pushing each job
+			// Mapping over the memos and pushing the jobs objects into a new array
 			let newArr = []
 			memos.job.map((jobs) => newArr.push(jobs))
-			// Going through the array and adding the number of stones and multiplying them to get the total amount
+			// Mapping through the NewArr and adding together the stones then multiplying by.50
 			let stoneSum = 0
 			newArr.map((jobs) => (stoneSum += jobs.stones))
 			stoneSum = stoneSum * .50
-
+			// Mapping through the NewArr and adding together the stones
 			let sumQuantity = 0
 			newArr.map((jobs) => sumQuantity += jobs.quantity)
-
+			// Mapping through the NewArr and adding together the quantity
 			let stonesQuantity = 0
 			newArr.map((jobs) => stonesQuantity += jobs.stones)
-
-			res.render('printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, stonesQuantity, username, loggedIn, userId })
+			// Passing the data to render on the page
+			res.render('memos/printmemo.liquid', { memos, newArr, stoneSum, sumQuantity, stonesQuantity, username, loggedIn, userId })
 		})
 		.catch((err) => {
 			console.log(err)
@@ -73,7 +74,7 @@ router.get('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
 	const memoId = req.params.id
 	Memo.findByIdAndRemove(memoId)
-		.then((memo) => {
+		.then(() => {
 			res.redirect('back')
 		})
 		.catch((error) => {

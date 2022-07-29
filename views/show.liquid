@@ -2,40 +2,26 @@
 {% block content %}
 
 <div class="bg">
-{% if jobs.length == 0 %}
-    <h1 class="text-center"> No Jobs Found!</h1>
-{% endif %}
+    {% if jobs.length == 0 %}
+        <h1 class="text-center"> No Jobs Found!</h1>
+    {% endif %}
 
-<h1 class="text-center">Filtered Jobs</h1>
-    </br>
+    <h1 class="text-center">Filtered Jobs</h1></br>
+
     <div id="box" style="display:flex;">
         <span id="span1">
-                <a href="/jobs/new" class="btn btn-light">Create Job</a>
+            <a href="/jobs/new" class="btn btn-light">Create Job</a>
         </span>
-        <!-- <span id="span4">
-            <form action="/jobs">
-                <label for="setter">Assign Setter:</label>
-                <select id="setters" name="setters">
-                  <option value="A">Setter A</option>
-                  <option value="B">Setter B</option>
-                  <option value="C">Setter C</option>
-                </select>
-                
-                <input type="submit" value="Assign Setter" class="btn btn-light">
-              </form>
-    </span> -->
-    <span id="span5">  
-        <form action="/memos/new" method="POST">
-        <input type="submit" value="Create and Print Memo" class="btn btn-light">
-    </form>
-    </span>
-    <span id="span6">
-        <a href="/memos" class="btn btn-light">All Memos</a>
-    </span>
-
+        <span id="span5">  
+            <form action="/memos/new" method="POST">
+            <input type="submit" value="Create and Print Memo" class="btn btn-light">
+        </form>
+        </span>
+        <span id="span6">
+            <a href="/memos" class="btn btn-light">All Memos</a>
+        </span>
     </div>
     </br>
-
 
 
 <table style="width:100%">
@@ -56,11 +42,10 @@
         <th>Setter</th>
         <th>Date Created</th>
         <th>Created By</th>
-      
     </tr>
 
-
     {% for job in jobs %}
+
     <tr>
         <td> 
             <form action="/jobs/checked/{{job._id}}?_method=PUT" method="POST">
@@ -81,5 +66,5 @@
         <td>{{ username  | capitalize }}</td>
       {% endfor %}
     </tr>
-  </table>
+</table>
 {% endblock %}

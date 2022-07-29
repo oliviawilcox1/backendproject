@@ -1,5 +1,4 @@
 const mongoose = require('./connection')
-
 const User = require('./user')
 const Job = require('./job')
 
