@@ -1,9 +1,12 @@
 {% layout "layout.liquid" %}
 {% block content %}
-<h1 class="text-center">All Jobs</h1>
-</br>
-<button class="btn btn-dark"> <a href="/memos/previewmemo"> Preview Memo </a></button>
-</br>
+
+  <h1 class="text-center">All Jobs</h1></br>
+
+  <div class="center">
+    <button> <a href="/memos/previewmemo"> Preview Memo </a></button>
+  </div>  
+
     <span class="text-center">
       <h3>Filter </h3>
         <form action="/jobs/show"> 
@@ -38,7 +41,9 @@
           placeholder="Description"
           class="form-control text-center"
           >
-          <input type="submit"  class="btn btn-light">
+          <div>
+            <input type="submit"  >
+          </div>
         </form> 
     </span>
 
@@ -75,10 +80,10 @@
           <td> {{ job.createdAt| slice: 0, 16}}</td>
           <td>{{ job.owner.name | capitalize }}</td>
         {% endfor %}
-        <span class="text-center">
-
-            <a href="/jobs" class="btn btn-dark ">Clear Filter</a>
-        </span>
+      
+      <div class="center">
+       <button> <a href="/jobs">Clear Filter</a></button>
+      </div>
       </tr>
     </table>
 {% endblock %}

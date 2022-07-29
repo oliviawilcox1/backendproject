@@ -2,7 +2,7 @@
 {% block content %}
     <h1 class="text-center">All Jobs</h1>
     </br>
-
+    <div class="container-sm text-center">
     <span class="text-center">
         <h3>Filter </h3>
           <form action="/jobs/show"> 
@@ -10,14 +10,14 @@
             type="text"
             name="order_number"
             placeholder="Order Number"
-            class="form-control text-center"
+          
             type="submit"
             >
             <input 
             type="text"
             name="sku"
             placeholder="Sku"
-            class="form-control text-center"
+           
             >
             <select name="setter">
               <option>Select</option>
@@ -29,18 +29,18 @@
             type="text"
             name="date"
             placeholder="Date (DD/MM/YY)"
-            class="form-control text-center"
+       
             >
             <input 
             type="text"
             name="description"
             placeholder="Description"
-            class="form-control text-center"
+          
             >
-            <input type="submit"  class="btn btn-light">
+            <input type="submit" >
           </form> 
         </span>
-        
+      </div>   
           <!-- <span class="text-center">
               <a href="/jobs" class="btn btn-dark ">Clear Filter</a>
           </span> -->
@@ -51,10 +51,10 @@
     <tr>
         <th> 
             <form action="/jobs/checked?_method=PUT" method="POST">
-                <input type="submit" value="Check all Boxes" class="btn btn-light">
+                <input type="submit" value="Check all Boxes" >
             </form>
             <form action="/jobs/unchecked?_method=PUT" method="POST">
-                <input type="submit" value="Uncheck all Boxes" class="btn btn-light">
+                <input type="submit" value="Uncheck all Boxes" >
             </form>
         </th>
         <th>Order Number</th>
@@ -88,7 +88,7 @@
         <td>
           
             <form action="/jobs/{{job._id }}?_method=DELETE" method="POST">
-                <input type="submit" value="Delete this job" class="btn btn-light">
+                <input type="submit" value="Delete this job" >
             </form>
         </td>
       {% endfor %}

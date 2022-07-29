@@ -5,10 +5,10 @@
 <h5 class="card-header"> Memo Created : {{memo.createdAt | slice: 0, 16}}  </h5>
     <div class="card-body">
         <h5> Memo Number: {{ memo._id | slice: 15,17}}</h5>
-           <a href="/memos/{{ memo._id }}" class="btn btn-light">Print Memo</a> 
+           <button><a href="/memos/{{ memo._id }}" >Print Memo</a> </button>
 
            <form action="/memos/{{memo._id }}?_method=DELETE" method="POST">
-            <input type="submit" value="Delete Memo" class="btn btn-light">
+            <input type="submit" value="Delete Memo">
         </form>
     </div>
 {% endfor %}
