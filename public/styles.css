@@ -50,20 +50,6 @@ font-weight: 300;
 color: #000000;
 }
 
-.container {
-display: inline;
-justify-content: space-between;
-width: 100%;
-padding: 1em;
-margin: auto;
-}
-
-.class {
-display: flex;
-align-content: center;
-justify-content: center;
-}
-
 h5 {
 font-weight: 300;
 font-size: 100%;
@@ -88,4 +74,18 @@ font-weight: 300;
 padding: 1em;
 text-align: center;
 cursor: pointer;
+}
+
+.container {
+display: inline;
+justify-content: space-between;
+width: 100%;
+padding: 1em;
+margin: auto;
+}
+
+.class {
+display: flex;
+align-content: center;
+justify-content: center;
 }
