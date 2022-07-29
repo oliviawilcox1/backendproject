@@ -13,6 +13,7 @@ router.use((req, res, next) => {
 	}
 })
 
+// *********** GET/Index Route for Memos **************
 router.get('/', (req, res) => {
 	// Finding all memos
 	Memo.find({})
@@ -27,6 +28,7 @@ router.get('/', (req, res) => {
 		})
 })
 
+// *********** GET Route for Preview Memo **************
 router.get('/previewmemo', (req,res)=> {
 	const { username, userId, loggedIn } = req.session
 	// Sample Memo Before actually creating it to see if this is the correct data you want to make a memo with
@@ -42,6 +44,7 @@ router.get('/previewmemo', (req,res)=> {
 
 })
 
+// *********** GET/Show Route for Memo **************
 router.get('/:id', (req, res) => {
 	const memoId = req.params.id
 	Memo.findById(memoId)
@@ -71,6 +74,7 @@ router.get('/:id', (req, res) => {
 		})
 })
 
+// *********** DELETE Route for Specific Memo **************
 router.delete('/:id', (req, res) => {
 	const memoId = req.params.id
 	Memo.findByIdAndRemove(memoId)

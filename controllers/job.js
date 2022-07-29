@@ -12,6 +12,8 @@ router.use((req, res, next) => {
 	}
 })
 
+
+// *********** GET/Index Route for Jobs **************
 router.get('/', (req, res) => {
 	// ternary operator changing any previous checked boxes to false/off
 	req.body.checked = req.body.checked === true ? false : false
@@ -31,6 +33,8 @@ router.get('/', (req, res) => {
 		})
 })
 
+
+// *********** GET Route for Create New Job Page **************
 router.get('/new', (req, res) => {
     const { username, userId, loggedIn } = req.session
 	// First finding the owner or user loggedin
@@ -44,7 +48,7 @@ router.get('/new', (req, res) => {
 		})
 })
 
-
+// *********** PUT/Update Route for checking a Job **************
 router.put('/checked/:id', (req, res) => {
 	const jobId = req.params.id
 	// getting the specific job by its id
@@ -58,7 +62,7 @@ router.put('/checked/:id', (req, res) => {
 		.catch((error) => res.json(error))
 })
 
-
+// *********** PUT/Update Route for checking all Jobs **************
 router.put('/checked', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	req.body.checked = req.body.checked === false ? false : true
@@ -71,7 +75,7 @@ router.put('/checked', (req, res) => {
 		.catch((error) => res.json(error))
 })
 
-
+// *********** PUT/Update Route for nchecking all Jobs **************
 router.put('/unchecked', (req, res) => {
 	req.body.checked = req.body.checked === true ? false : false
 	// Changes all checkboxes to false and off
@@ -83,6 +87,7 @@ router.put('/unchecked', (req, res) => {
 		.catch((error) => res.json(error))
 })
 
+// *********** POST/Create Route for Job**************
 router.post('/new', (req,res)=> {
 	// const { username, userId, loggedIn } = req.session
 	req.body.checked = req.body.checked === 'on' ? true : false
@@ -98,6 +103,7 @@ router.post('/new', (req,res)=> {
 		})
 })
 
+// *********** POST/Create Route for Memo **************
 router.post('/creatememo/', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	Job.find({checked: true}).lean()
@@ -136,7 +142,7 @@ router.post('/creatememo/', (req, res) => {
 				})
 	})
 
-
+// *********** GET/Show Route for a specific memo **************
 router.get('/memos/:id', (req, res) => {
 	const memoId = req.params.id
 	Memo.findById(memoId)
@@ -166,7 +172,7 @@ router.get('/memos/:id', (req, res) => {
 		})
 })
 	
-
+// *********** GET Route for Filtering Jobs **************
 router.get('/show', (req, res) => {
 	// the show route is used to filter through all the jobs 
 	// Use req.query to get the data the user is using to filter
@@ -224,7 +230,7 @@ router.get('/show', (req, res) => {
 		})
 })	
 
-
+// *********** DELETE Route for Job **************
 router.delete('/:id', (req, res) => {
 	const jobId = req.params.id
 	Job.findByIdAndRemove(jobId)
